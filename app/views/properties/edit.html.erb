@@ -1,0 +1,38 @@
+<h1>物件編集</h1>
+<%= form_with(model: @property, local: true, url: property_path ) do |f| %>
+  <% if @property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @property.errors.count %>件のエラーがあります。</h2>
+      <ul>
+      <% @property.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="property_wrapper">
+    <%= f.label :name, "物件名" %><br>
+    <%= f.text_field :name %><br>
+    <%= f.label :price, "賃料" %>
+    <p><%= f.text_field :price %>円</p>
+    <%= f.label :address, "住所" %><br>
+    <%= f.text_field :address %><br>
+    <%= f.label :age, "築年数" %><br>
+    <p><%= f.text_field :age %>年</p>
+    <%= f.label :note, "備考" %><br>
+    <%= f.text_area :note %><br>
+    <%= f.fields_for :stations do |ff| %>
+      <h3>最寄駅<%= @station_count %></h3>
+      <%= ff.label :name, "路線名" %><br>
+      <%= ff.text_field :route %><br>
+      <%= ff.label :name, "駅名" %><br>
+      <%= ff.text_field :name %><br>
+      <%= ff.label :name, "徒歩分数" %>
+      <p><%= ff.text_field :minute %>分</p>
+      <% @station_count += 1 %>
+    <% end %>
+  </div>
+  <%= f.submit "更新する", name: "commit", data: {disable_with:"editting･･･"} %><br>
+  <%= link_to '詳細', property_path(@property.id) %>
+  <%= link_to '戻る', :back %>
+<% end %>
